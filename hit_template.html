@@ -1,0 +1,617 @@
+<!-- MTurk Built-in Template -->
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #222;
+  }
+  h2 { font-size: 18px; margin-bottom: 4px; }
+  .instructions {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-bottom: 24px;
+  }
+  .instructions li { margin-bottom: 6px; }
+  .progress {
+    text-align: right;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+  .block {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 28px;
+    background: #fff;
+  }
+  .block-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 14px;
+  }
+  .ref-images {
+    display: flex;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .ref-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 160px;
+  }
+  .ref-box img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .ref-box .caption {
+    font-size: 11px;
+    color: #666;
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding: 3px 8px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 1.4;
+  }
+  .block-instructions {
+    font-size: 13px;
+    color: #555;
+    background: #f7f7f7;
+    border-left: 3px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 14px;
+    line-height: 1.6;
+  }
+  .strips-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 14px;
+  }
+  .strips-table td {
+    padding: 4px 8px;
+    vertical-align: middle;
+  }
+  .strips-table td.label {
+    font-weight: bold;
+    font-size: 15px;
+    width: 30px;
+    text-align: center;
+  }
+  .strips-table img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: block;
+  }
+  .intensity-label {
+    font-size: 11px;
+    color: #888;
+    margin-top: 3px;
+  }
+  .questions {
+    display: flex;
+    gap: 40px;
+    margin-top: 10px;
+  }
+  .question-group {
+    flex: 1;
+  }
+  .question-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .radio-row {
+    display: flex;
+    gap: 20px;
+  }
+  .radio-row label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .attention-note {
+    background: #fff8e1;
+    border: 1px solid #f0c040;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-bottom: 28px;
+  }
+  .submit-btn {
+    display: block;
+    margin: 30px auto 0;
+    padding: 12px 40px;
+    background: #e47911;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .submit-btn:hover { background: #c96a00; }
+  .error-msg {
+    color: red;
+    font-size: 13px;
+    margin-top: 8px;
+    display: none;
+  }
+</style>
+
+<div class="instructions">
+  <h2>Instructions</h2>
+  <ul>
+    <li>You will evaluate <strong>7 sequences</strong> of facial expressions.</li>
+    <li>Each sequence shows a face displaying an expression at increasing intensity from left (none) to right (full).</li>
+    <li>For each sequence you will see:
+      <ul>
+        <li><strong>Source face:</strong> the person whose facial expression should be changed.</li>
+        <li><strong>Target expression:</strong> the expression that should be transferred.</li>
+        <li><strong>Sequences A, B, C:</strong> three different outputs to compare.</li>
+      </ul>
+    </li>
+    <li>For each block, answer <strong>two questions</strong> by selecting A, B, or C.</li>
+    <li>Please evaluate each block independently.</li>
+    <li><strong>Do not rush.</strong> Take time to compare the three sequences carefully.</li>
+  </ul>
+</div>
+
+<!-- ==================== BLOCK 1 ==================== -->
+<div class="block" id="block-1">
+  <div class="progress">Block 1 of 7</div>
+  <div class="block-header">
+    <div class="ref-images">
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/targets/${actor_1}.jpg" alt="Source face">
+        <span class="caption">This is the person whose facial expression should be changed</span>
+      </div>
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/expressions/${expression}.jpg" alt="Target expression">
+        <span class="caption">Target expression</span>
+      </div>
+    </div>
+    <div>
+      <div class="block-instructions">Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.</div>
+    </div>
+  </div>
+
+  <table class="strips-table">
+    <tr>
+      <td class="label">A</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${A_1}/${actor_1}_${expression}_strip.jpg" alt="Sequence A"></td>
+    </tr>
+    <tr>
+      <td class="label">B</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${B_1}/${actor_1}_${expression}_strip.jpg" alt="Sequence B"></td>
+    </tr>
+    <tr>
+      <td class="label">C</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${C_1}/${actor_1}_${expression}_strip.jpg" alt="Sequence C"></td>
+    </tr>
+  </table>
+  <div class="intensity-label" style="text-align:center;font-size:12px;color:#888;margin-bottom:10px;">All sequences go from no expression (left) to full expression (right)</div>
+
+  <div class="questions">
+    <div class="question-group">
+      <label>1. Which sequence best captures the target expression?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="expr_1" value="A"> A</label>
+        <label><input type="radio" name="expr_1" value="B"> B</label>
+        <label><input type="radio" name="expr_1" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-expr-1">Please select an option.</div>
+    </div>
+    <div class="question-group">
+      <label>2. Which sequence most naturally builds up the expression while keeping the person looking like themselves?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="intensity_1" value="A"> A</label>
+        <label><input type="radio" name="intensity_1" value="B"> B</label>
+        <label><input type="radio" name="intensity_1" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-intensity-1">Please select an option.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BLOCK 2 ==================== -->
+<div class="block" id="block-2">
+  <div class="progress">Block 2 of 7</div>
+  <div class="block-header">
+    <div class="ref-images">
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/targets/${actor_2}.jpg" alt="Source face">
+        <span class="caption">This is the person whose facial expression should be changed</span>
+      </div>
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/expressions/${expression}.jpg" alt="Target expression">
+        <span class="caption">Target expression</span>
+      </div>
+    </div>
+    <div>
+      <div class="block-instructions">Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.</div>
+    </div>
+  </div>
+
+  <table class="strips-table">
+    <tr>
+      <td class="label">A</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${A_2}/${actor_2}_${expression}_strip.jpg" alt="Sequence A"></td>
+    </tr>
+    <tr>
+      <td class="label">B</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${B_2}/${actor_2}_${expression}_strip.jpg" alt="Sequence B"></td>
+    </tr>
+    <tr>
+      <td class="label">C</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${C_2}/${actor_2}_${expression}_strip.jpg" alt="Sequence C"></td>
+    </tr>
+  </table>
+  <div class="intensity-label" style="text-align:center;font-size:12px;color:#888;margin-bottom:10px;">All sequences go from no expression (left) to full expression (right)</div>
+
+  <div class="questions">
+    <div class="question-group">
+      <label>1. Which sequence best captures the target expression?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="expr_2" value="A"> A</label>
+        <label><input type="radio" name="expr_2" value="B"> B</label>
+        <label><input type="radio" name="expr_2" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-expr-2">Please select an option.</div>
+    </div>
+    <div class="question-group">
+      <label>2. Which sequence most naturally builds up the expression while keeping the person looking like themselves?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="intensity_2" value="A"> A</label>
+        <label><input type="radio" name="intensity_2" value="B"> B</label>
+        <label><input type="radio" name="intensity_2" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-intensity-2">Please select an option.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BLOCK 3 ==================== -->
+<div class="block" id="block-3">
+  <div class="progress">Block 3 of 7</div>
+  <div class="block-header">
+    <div class="ref-images">
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/targets/${actor_3}.jpg" alt="Source face">
+        <span class="caption">This is the person whose facial expression should be changed</span>
+      </div>
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/expressions/${expression}.jpg" alt="Target expression">
+        <span class="caption">Target expression</span>
+      </div>
+    </div>
+    <div>
+      <div class="block-instructions">Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.</div>
+    </div>
+  </div>
+
+  <table class="strips-table">
+    <tr>
+      <td class="label">A</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${A_3}/${actor_3}_${expression}_strip.jpg" alt="Sequence A"></td>
+    </tr>
+    <tr>
+      <td class="label">B</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${B_3}/${actor_3}_${expression}_strip.jpg" alt="Sequence B"></td>
+    </tr>
+    <tr>
+      <td class="label">C</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${C_3}/${actor_3}_${expression}_strip.jpg" alt="Sequence C"></td>
+    </tr>
+  </table>
+  <div class="intensity-label" style="text-align:center;font-size:12px;color:#888;margin-bottom:10px;">All sequences go from no expression (left) to full expression (right)</div>
+
+  <div class="questions">
+    <div class="question-group">
+      <label>1. Which sequence best captures the target expression?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="expr_3" value="A"> A</label>
+        <label><input type="radio" name="expr_3" value="B"> B</label>
+        <label><input type="radio" name="expr_3" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-expr-3">Please select an option.</div>
+    </div>
+    <div class="question-group">
+      <label>2. Which sequence most naturally builds up the expression while keeping the person looking like themselves?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="intensity_3" value="A"> A</label>
+        <label><input type="radio" name="intensity_3" value="B"> B</label>
+        <label><input type="radio" name="intensity_3" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-intensity-3">Please select an option.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BLOCK 4 ==================== -->
+<div class="block" id="block-4">
+  <div class="progress">Block 4 of 7</div>
+  <div class="block-header">
+    <div class="ref-images">
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/targets/${actor_4}.jpg" alt="Source face">
+        <span class="caption">This is the person whose facial expression should be changed</span>
+      </div>
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/expressions/${expression}.jpg" alt="Target expression">
+        <span class="caption">Target expression</span>
+      </div>
+    </div>
+    <div>
+      <div class="block-instructions">Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.</div>
+    </div>
+  </div>
+
+  <table class="strips-table">
+    <tr>
+      <td class="label">A</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${A_4}/${actor_4}_${expression}_strip.jpg" alt="Sequence A"></td>
+    </tr>
+    <tr>
+      <td class="label">B</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${B_4}/${actor_4}_${expression}_strip.jpg" alt="Sequence B"></td>
+    </tr>
+    <tr>
+      <td class="label">C</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${C_4}/${actor_4}_${expression}_strip.jpg" alt="Sequence C"></td>
+    </tr>
+  </table>
+  <div class="intensity-label" style="text-align:center;font-size:12px;color:#888;margin-bottom:10px;">All sequences go from no expression (left) to full expression (right)</div>
+
+  <div class="questions">
+    <div class="question-group">
+      <label>1. Which sequence best captures the target expression?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="expr_4" value="A"> A</label>
+        <label><input type="radio" name="expr_4" value="B"> B</label>
+        <label><input type="radio" name="expr_4" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-expr-4">Please select an option.</div>
+    </div>
+    <div class="question-group">
+      <label>2. Which sequence most naturally builds up the expression while keeping the person looking like themselves?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="intensity_4" value="A"> A</label>
+        <label><input type="radio" name="intensity_4" value="B"> B</label>
+        <label><input type="radio" name="intensity_4" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-intensity-4">Please select an option.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BLOCK 5 ==================== -->
+<div class="block" id="block-5">
+  <div class="progress">Block 5 of 7</div>
+  <div class="block-header">
+    <div class="ref-images">
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/targets/${actor_5}.jpg" alt="Source face">
+        <span class="caption">This is the person whose facial expression should be changed</span>
+      </div>
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/expressions/${expression}.jpg" alt="Target expression">
+        <span class="caption">Target expression</span>
+      </div>
+    </div>
+    <div>
+      <div class="block-instructions">Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.</div>
+    </div>
+  </div>
+
+  <table class="strips-table">
+    <tr>
+      <td class="label">A</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${A_5}/${actor_5}_${expression}_strip.jpg" alt="Sequence A"></td>
+    </tr>
+    <tr>
+      <td class="label">B</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${B_5}/${actor_5}_${expression}_strip.jpg" alt="Sequence B"></td>
+    </tr>
+    <tr>
+      <td class="label">C</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${C_5}/${actor_5}_${expression}_strip.jpg" alt="Sequence C"></td>
+    </tr>
+  </table>
+  <div class="intensity-label" style="text-align:center;font-size:12px;color:#888;margin-bottom:10px;">All sequences go from no expression (left) to full expression (right)</div>
+
+  <div class="questions">
+    <div class="question-group">
+      <label>1. Which sequence best captures the target expression?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="expr_5" value="A"> A</label>
+        <label><input type="radio" name="expr_5" value="B"> B</label>
+        <label><input type="radio" name="expr_5" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-expr-5">Please select an option.</div>
+    </div>
+    <div class="question-group">
+      <label>2. Which sequence most naturally builds up the expression while keeping the person looking like themselves?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="intensity_5" value="A"> A</label>
+        <label><input type="radio" name="intensity_5" value="B"> B</label>
+        <label><input type="radio" name="intensity_5" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-intensity-5">Please select an option.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BLOCK 6 ==================== -->
+<div class="block" id="block-6">
+  <div class="progress">Block 6 of 7</div>
+  <div class="block-header">
+    <div class="ref-images">
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/targets/${actor_6}.jpg" alt="Source face">
+        <span class="caption">This is the person whose facial expression should be changed</span>
+      </div>
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/expressions/${expression}.jpg" alt="Target expression">
+        <span class="caption">Target expression</span>
+      </div>
+    </div>
+    <div>
+      <div class="block-instructions">Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.</div>
+    </div>
+  </div>
+
+  <table class="strips-table">
+    <tr>
+      <td class="label">A</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${A_6}/${actor_6}_${expression}_strip.jpg" alt="Sequence A"></td>
+    </tr>
+    <tr>
+      <td class="label">B</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${B_6}/${actor_6}_${expression}_strip.jpg" alt="Sequence B"></td>
+    </tr>
+    <tr>
+      <td class="label">C</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${C_6}/${actor_6}_${expression}_strip.jpg" alt="Sequence C"></td>
+    </tr>
+  </table>
+  <div class="intensity-label" style="text-align:center;font-size:12px;color:#888;margin-bottom:10px;">All sequences go from no expression (left) to full expression (right)</div>
+
+  <div class="questions">
+    <div class="question-group">
+      <label>1. Which sequence best captures the target expression?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="expr_6" value="A"> A</label>
+        <label><input type="radio" name="expr_6" value="B"> B</label>
+        <label><input type="radio" name="expr_6" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-expr-6">Please select an option.</div>
+    </div>
+    <div class="question-group">
+      <label>2. Which sequence most naturally builds up the expression while keeping the person looking like themselves?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="intensity_6" value="A"> A</label>
+        <label><input type="radio" name="intensity_6" value="B"> B</label>
+        <label><input type="radio" name="intensity_6" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-intensity-6">Please select an option.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== BLOCK 7: ATTENTION CHECK ==================== -->
+<div class="block" id="block-7">
+  <div class="progress">Block 7 of 7</div>
+  <div class="block-header">
+    <div class="ref-images">
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/targets/${actor_7}.jpg" alt="Source face">
+        <span class="caption">This is the person whose facial expression should be changed</span>
+      </div>
+      <div class="ref-box">
+        <img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/assets/expressions/${expression}.jpg" alt="Target expression">
+        <span class="caption">Target expression</span>
+      </div>
+    </div>
+    <div>
+      <div class="block-instructions">Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.</div>
+    </div>
+  </div>
+
+  <table class="strips-table">
+    <tr>
+      <td class="label">A</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${A_7}/${actor_7}_${expression}_strip.jpg" alt="Sequence A"></td>
+    </tr>
+    <tr>
+      <td class="label">B</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${B_7}/${actor_7}_${expression}_strip.jpg" alt="Sequence B"></td>
+    </tr>
+    <tr>
+      <td class="label">C</td>
+      <td><img src="https://cdn.jsdelivr.net/gh/varun-jois/mturk-study/strips/${C_7}/${actor_7}_${expression}_strip.jpg" alt="Sequence C"></td>
+    </tr>
+  </table>
+  <div class="intensity-label" style="text-align:center;font-size:12px;color:#888;margin-bottom:10px;">All sequences go from no expression (left) to full expression (right)</div>
+
+  <div class="questions">
+    <div class="question-group">
+      <label>1. Which sequence best captures the target expression?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="expr_7" value="A"> A</label>
+        <label><input type="radio" name="expr_7" value="B"> B</label>
+        <label><input type="radio" name="expr_7" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-expr-7">Please select an option.</div>
+    </div>
+    <div class="question-group">
+      <label>2. Which sequence most naturally builds up the expression while keeping the person looking like themselves?</label>
+      <div class="radio-row">
+        <label><input type="radio" name="intensity_7" value="A"> A</label>
+        <label><input type="radio" name="intensity_7" value="B"> B</label>
+        <label><input type="radio" name="intensity_7" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-intensity-7">Please select an option.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Catch question -->
+<div class="block">
+  <div class="questions">
+    <div class="question-group">
+      <label>Quality control: Please select "B" for this question.</label>
+      <div class="radio-row">
+        <label><input type="radio" name="catch" value="A"> A</label>
+        <label><input type="radio" name="catch" value="B"> B</label>
+        <label><input type="radio" name="catch" value="C"> C</label>
+      </div>
+      <div class="error-msg" id="err-catch">Please select an option.</div>
+    </div>
+  </div>
+</div>
+
+<button class="submit-btn" onclick="validateAndSubmit()">Submit</button>
+
+<script>
+  function validateAndSubmit() {
+    const total = 7;
+    let valid = true;
+
+    for (let i = 1; i <= total; i++) {
+      const exprAnswered    = document.querySelector(`input[name="expr_${i}"]:checked`);
+      const intensityAnswered = document.querySelector(`input[name="intensity_${i}"]:checked`);
+
+      const errExpr      = document.getElementById(`err-expr-${i}`);
+      const errIntensity = document.getElementById(`err-intensity-${i}`);
+
+      errExpr.style.display      = exprAnswered     ? 'none' : 'block';
+      errIntensity.style.display = intensityAnswered ? 'none' : 'block';
+
+      if (!exprAnswered || !intensityAnswered) valid = false;
+    }
+
+    const catchAnswered = document.querySelector('input[name="catch"]:checked');
+    document.getElementById('err-catch').style.display = catchAnswered ? 'none' : 'block';
+    if (!catchAnswered) valid = false;
+
+    if (valid) document.forms[0].submit();
+  }
+</script>
