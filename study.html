@@ -170,7 +170,7 @@
         <li><strong>Sequences A, B, C:</strong> three different outputs to compare.</li>
       </ul>
     </li>
-    <li>For each block, answer <strong>two questions</strong> by selecting A, B, or C.</li>
+    <li>For each block, answer <strong>three questions</strong> by selecting A, B, or C.</li>
     <li>Please evaluate each block independently.</li>
     <li><strong>Do not rush.</strong> Take time to compare the three sequences carefully.</li>
   </ul>
@@ -500,9 +500,19 @@ function buildBlock(expression, blockIdx, block) {
         </tr>
       </table>
       <div class="intensity-label">All sequences go from no expression (left) to full expression (right)</div>
+      <p style="font-size:13px;color:#555;margin:10px 0 12px;"><em>Note: each question is independent — the same sequence may be the best answer for multiple questions.</em></p>
       <div class="questions">
         <div class="question-group">
-          <label>1. Which sequence best captures the target expression?</label>
+          <label>1. Which sequence most naturally builds up from neutral to the target expression?</label>
+          <div class="radio-row">
+            <label><input type="radio" name="prog_${i}" value="A"> A</label>
+            <label><input type="radio" name="prog_${i}" value="B"> B</label>
+            <label><input type="radio" name="prog_${i}" value="C"> C</label>
+          </div>
+          <div class="error-msg" id="err-prog-${i}">Please select an option.</div>
+        </div>
+        <div class="question-group">
+          <label>2. Which sequence best captures the target expression?</label>
           <div class="radio-row">
             <label><input type="radio" name="expr_${i}" value="A"> A</label>
             <label><input type="radio" name="expr_${i}" value="B"> B</label>
@@ -511,13 +521,13 @@ function buildBlock(expression, blockIdx, block) {
           <div class="error-msg" id="err-expr-${i}">Please select an option.</div>
         </div>
         <div class="question-group">
-          <label>2. Which sequence most naturally builds up to the target expression while keeping the person looking like themselves?</label>
+          <label>3. Which sequence best maintains the person's natural appearance throughout?</label>
           <div class="radio-row">
-            <label><input type="radio" name="intensity_${i}" value="A"> A</label>
-            <label><input type="radio" name="intensity_${i}" value="B"> B</label>
-            <label><input type="radio" name="intensity_${i}" value="C"> C</label>
+            <label><input type="radio" name="identity_${i}" value="A"> A</label>
+            <label><input type="radio" name="identity_${i}" value="B"> B</label>
+            <label><input type="radio" name="identity_${i}" value="C"> C</label>
           </div>
-          <div class="error-msg" id="err-intensity-${i}">Please select an option.</div>
+          <div class="error-msg" id="err-identity-${i}">Please select an option.</div>
         </div>
       </div>
     </div>`;
@@ -536,18 +546,21 @@ function buildStudy() {
 }
 
 function validateAndSubmit() {
-  const total = 6;
-  let valid   = true;
+  let valid = true;
 
   for (let i = 1; i <= 7; i++) {
-    const eEl = document.querySelector('input[name="expr_' + i + '"]:checked');
-    const iEl = document.querySelector('input[name="intensity_' + i + '"]:checked');
-    const errE = document.getElementById('err-expr-' + i);
-    const errI = document.getElementById('err-intensity-' + i);
-    if (errE) errE.style.display = eEl ? 'none' : 'block';
-    if (errI) errI.style.display = iEl ? 'none' : 'block';
-    if (errE && !eEl) valid = false;
-    if (errI && !iEl) valid = false;
+    const pEl  = document.querySelector('input[name="prog_' + i + '"]:checked');
+    const eEl  = document.querySelector('input[name="expr_' + i + '"]:checked');
+    const idEl = document.querySelector('input[name="identity_' + i + '"]:checked');
+    const errP  = document.getElementById('err-prog-' + i);
+    const errE  = document.getElementById('err-expr-' + i);
+    const errId = document.getElementById('err-identity-' + i);
+    if (errP)  errP.style.display  = pEl  ? 'none' : 'block';
+    if (errE)  errE.style.display  = eEl  ? 'none' : 'block';
+    if (errId) errId.style.display = idEl ? 'none' : 'block';
+    if (errP  && !pEl)  valid = false;
+    if (errE  && !eEl)  valid = false;
+    if (errId && !idEl) valid = false;
   }
 
   const catchEl = document.querySelector('input[name="catch"]:checked');
@@ -572,14 +585,16 @@ function validateAndSubmit() {
     const A     = hit.blocks[i - 1].A;
     const B     = hit.blocks[i - 1].B;
     const C     = hit.blocks[i - 1].C;
+    const pEl   = document.querySelector('input[name="prog_' + i + '"]:checked');
     const eEl   = document.querySelector('input[name="expr_' + i + '"]:checked');
-    const iEl   = document.querySelector('input[name="intensity_' + i + '"]:checked');
-    data["actor_" + i]     = actor;
-    data["A_" + i]         = A;
-    data["B_" + i]         = B;
-    data["C_" + i]         = C;
-    data["expr_" + i]      = eEl ? eEl.value : "";
-    data["intensity_" + i] = iEl ? iEl.value : "";
+    const idEl  = document.querySelector('input[name="identity_' + i + '"]:checked');
+    data["actor_" + i]    = actor;
+    data["A_" + i]        = A;
+    data["B_" + i]        = B;
+    data["C_" + i]        = C;
+    data["prog_" + i]     = pEl  ? pEl.value  : "";
+    data["expr_" + i]     = eEl  ? eEl.value  : "";
+    data["identity_" + i] = idEl ? idEl.value : "";
   }
 
   const btn = document.getElementById("submit-btn");
