@@ -161,7 +161,7 @@
 <div class="instructions">
   <h2>Instructions</h2>
   <ul>
-    <li>You will evaluate <strong>6 sequences</strong> of facial expressions.</li>
+    <li>You will evaluate <strong>7 sequences</strong> of facial expressions.</li>
     <li>Each sequence shows a face displaying an expression at increasing intensity from left (none) to right (full).</li>
     <li>For each sequence you will see:
       <ul>
@@ -469,7 +469,7 @@ function buildBlock(expression, blockIdx, block) {
   const isAttn  = (i === MAPPING[expression].attn_pos);
   return `
     <div class="block" id="block-${i}">
-      <div class="progress">Block ${i} of 6</div>
+      <div class="progress">Block ${i} of 7</div>
       <div class="block-header">
         <div class="ref-images">
           <div class="ref-box">
@@ -528,21 +528,11 @@ function buildStudy() {
   window._expression = expression;
   const hit        = MAPPING[expression];
   const container  = document.getElementById("study-container");
-  let html         = "";
-  let shownBlock   = 0;
+  let html = "";
   for (let i = 0; i < 7; i++) {
-    if (i + 1 === hit.attn_pos) continue;  // skip attention check block from display count
-    shownBlock++;
     html += buildBlock(expression, i, hit.blocks[i]);
   }
   container.innerHTML = html;
-
-  // fix progress labels to show 1-6
-  const blocks = container.querySelectorAll(".block");
-  blocks.forEach((b, idx) => {
-    const prog = b.querySelector(".progress");
-    if (prog) prog.textContent = "Block " + (idx + 1) + " of 6";
-  });
 }
 
 function validateAndSubmit() {
