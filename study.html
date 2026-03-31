@@ -448,7 +448,7 @@ const MAPPING       = {
 };
 const BASE_URL      = "https://cdn.jsdelivr.net/gh/varun-jois/mturk-study@main";
 const APPS_SCRIPT   = "https://script.google.com/macros/s/AKfycbwh8kWhRh_cppL2KwIoRcRzyrWP4kXSRhTXeg2jCfIgb_JlkXJ88h43DE44d-Eyt2ivjA/exec";
-const COMPLETION_URL = "https://app.prolific.com/submissions/complete?cc=C1Q6959Q";
+const COMPLETION_URL = "https://app.prolific.com/submissions/complete?cc=CUC330RG";
 const EXPRESSIONS   = ["angry", "disgust", "sad3", "smile", "wink"];
 
 function getUrlParam(name) {
@@ -457,6 +457,8 @@ function getUrlParam(name) {
 }
 
 function pickExpression() {
+  const forced = getUrlParam("expression");
+  if (forced && EXPRESSIONS.includes(forced)) return forced;
   const seed = getUrlParam("PROLIFIC_PID") || Math.random().toString();
   let hash = 0;
   for (let c of seed) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
