@@ -154,9 +154,23 @@
     font-size: 13px;
     color: #555;
   }
+  .preview-banner {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: #856404;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
+
+<div id="preview-banner" class="preview-banner" style="display:none;">
+  <strong>Preview mode.</strong> Accept the HIT to complete the study and submit your responses.
+</div>
 
 <div class="instructions">
   <h2>Instructions</h2>
@@ -204,22 +218,14 @@
 <div id="status-msg"></div>
 
 <script>
-const MAPPING       = {
+const MAPPING     = {
   "angry": {
-    "attn_pos": 2,
-    "attn_degraded_label": "C",
     "blocks": [
       {
-        "actor": "w3",
+        "actor": "w1",
         "A": "model_67_17",
         "B": "MagicFace",
         "C": "GANmut"
-      },
-      {
-        "actor": "m2",
-        "A": "MagicFace",
-        "B": "GANmut",
-        "C": "degraded"
       },
       {
         "actor": "m4",
@@ -228,10 +234,22 @@ const MAPPING       = {
         "C": "MagicFace"
       },
       {
-        "actor": "w1",
-        "A": "model_67_17",
+        "actor": "w5",
+        "A": "MagicFace",
         "B": "GANmut",
-        "C": "MagicFace"
+        "C": "model_67_17"
+      },
+      {
+        "actor": "w3",
+        "A": "model_67_17",
+        "B": "MagicFace",
+        "C": "GANmut"
+      },
+      {
+        "actor": "m3",
+        "A": "MagicFace",
+        "B": "GANmut",
+        "C": "model_67_17"
       },
       {
         "actor": "w4",
@@ -240,39 +258,49 @@ const MAPPING       = {
         "C": "MagicFace"
       },
       {
-        "actor": "m3",
-        "A": "model_67_17",
-        "B": "GANmut",
-        "C": "MagicFace"
-      },
-      {
-        "actor": "w5",
+        "actor": "m2",
         "A": "MagicFace",
-        "B": "model_67_17",
-        "C": "GANmut"
+        "B": "GANmut",
+        "C": "model_67_17"
       }
     ]
   },
   "disgust": {
-    "attn_pos": 5,
-    "attn_degraded_label": "C",
     "blocks": [
       {
-        "actor": "w4",
+        "actor": "m3",
         "A": "model_67_17",
-        "B": "GANmut",
+        "B": "MagicFace",
+        "C": "GANmut"
+      },
+      {
+        "actor": "w4",
+        "A": "GANmut",
+        "B": "model_67_17",
         "C": "MagicFace"
       },
       {
-        "actor": "w3",
+        "actor": "w5",
         "A": "MagicFace",
         "B": "GANmut",
         "C": "model_67_17"
       },
       {
+        "actor": "w3",
+        "A": "model_67_17",
+        "B": "MagicFace",
+        "C": "GANmut"
+      },
+      {
         "actor": "w1",
         "A": "GANmut",
-        "B": "MagicFace",
+        "B": "model_67_17",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "m4",
+        "A": "MagicFace",
+        "B": "GANmut",
         "C": "model_67_17"
       },
       {
@@ -280,61 +308,11 @@ const MAPPING       = {
         "A": "MagicFace",
         "B": "model_67_17",
         "C": "GANmut"
-      },
-      {
-        "actor": "m3",
-        "A": "MagicFace",
-        "B": "GANmut",
-        "C": "degraded"
-      },
-      {
-        "actor": "w5",
-        "A": "MagicFace",
-        "B": "model_67_17",
-        "C": "GANmut"
-      },
-      {
-        "actor": "m4",
-        "A": "GANmut",
-        "B": "model_67_17",
-        "C": "MagicFace"
       }
     ]
   },
   "sad3": {
-    "attn_pos": 2,
-    "attn_degraded_label": "A",
     "blocks": [
-      {
-        "actor": "m3",
-        "A": "MagicFace",
-        "B": "model_67_17",
-        "C": "GANmut"
-      },
-      {
-        "actor": "m4",
-        "A": "degraded",
-        "B": "MagicFace",
-        "C": "GANmut"
-      },
-      {
-        "actor": "w1",
-        "A": "MagicFace",
-        "B": "GANmut",
-        "C": "model_67_17"
-      },
-      {
-        "actor": "w5",
-        "A": "model_67_17",
-        "B": "GANmut",
-        "C": "MagicFace"
-      },
-      {
-        "actor": "w4",
-        "A": "model_67_17",
-        "B": "GANmut",
-        "C": "MagicFace"
-      },
       {
         "actor": "m2",
         "A": "model_67_17",
@@ -342,55 +320,83 @@ const MAPPING       = {
         "C": "GANmut"
       },
       {
-        "actor": "w3",
-        "A": "model_67_17",
-        "B": "GANmut",
-        "C": "MagicFace"
-      }
-    ]
-  },
-  "smile": {
-    "attn_pos": 6,
-    "attn_degraded_label": "C",
-    "blocks": [
-      {
         "actor": "m3",
+        "A": "GANmut",
+        "B": "model_67_17",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "m4",
         "A": "MagicFace",
         "B": "GANmut",
         "C": "model_67_17"
       },
       {
-        "actor": "w3",
+        "actor": "w1",
         "A": "model_67_17",
-        "B": "MagicFace",
-        "C": "GANmut"
+        "B": "GANmut",
+        "C": "MagicFace"
       },
       {
-        "actor": "m4",
+        "actor": "w3",
         "A": "GANmut",
         "B": "MagicFace",
         "C": "model_67_17"
       },
       {
-        "actor": "m2",
+        "actor": "w4",
+        "A": "MagicFace",
+        "B": "model_67_17",
+        "C": "GANmut"
+      },
+      {
+        "actor": "w5",
+        "A": "model_67_17",
+        "B": "MagicFace",
+        "C": "GANmut"
+      }
+    ]
+  },
+  "smile": {
+    "blocks": [
+      {
+        "actor": "w5",
         "A": "MagicFace",
         "B": "GANmut",
         "C": "model_67_17"
       },
       {
-        "actor": "w5",
-        "A": "model_67_17",
-        "B": "GANmut",
+        "actor": "m2",
+        "A": "GANmut",
+        "B": "model_67_17",
         "C": "MagicFace"
       },
       {
-        "actor": "w1",
-        "A": "MagicFace",
-        "B": "GANmut",
-        "C": "degraded"
+        "actor": "w4",
+        "A": "model_67_17",
+        "B": "MagicFace",
+        "C": "GANmut"
       },
       {
-        "actor": "w4",
+        "actor": "m4",
+        "A": "MagicFace",
+        "B": "GANmut",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "w3",
+        "A": "model_67_17",
+        "B": "MagicFace",
+        "C": "GANmut"
+      },
+      {
+        "actor": "w1",
+        "A": "GANmut",
+        "B": "model_67_17",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "m3",
         "A": "model_67_17",
         "B": "GANmut",
         "C": "MagicFace"
@@ -398,13 +404,173 @@ const MAPPING       = {
     ]
   },
   "wink": {
-    "attn_pos": 5,
-    "attn_degraded_label": "A",
     "blocks": [
+      {
+        "actor": "w5",
+        "A": "GANmut",
+        "B": "model_67_17",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "m2",
+        "A": "MagicFace",
+        "B": "GANmut",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "w3",
+        "A": "model_67_17",
+        "B": "MagicFace",
+        "C": "GANmut"
+      },
+      {
+        "actor": "m3",
+        "A": "MagicFace",
+        "B": "model_67_17",
+        "C": "GANmut"
+      },
+      {
+        "actor": "m4",
+        "A": "GANmut",
+        "B": "MagicFace",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "w4",
+        "A": "model_67_17",
+        "B": "GANmut",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "w1",
+        "A": "MagicFace",
+        "B": "GANmut",
+        "C": "model_67_17"
+      }
+    ]
+  },
+  "confused": {
+    "blocks": [
+      {
+        "actor": "m4",
+        "A": "GANmut",
+        "B": "MagicFace",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "w4",
+        "A": "MagicFace",
+        "B": "model_67_17",
+        "C": "GANmut"
+      },
+      {
+        "actor": "m3",
+        "A": "model_67_17",
+        "B": "GANmut",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "w5",
+        "A": "model_67_17",
+        "B": "GANmut",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "w1",
+        "A": "MagicFace",
+        "B": "model_67_17",
+        "C": "GANmut"
+      },
+      {
+        "actor": "m2",
+        "A": "GANmut",
+        "B": "MagicFace",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "w3",
+        "A": "MagicFace",
+        "B": "GANmut",
+        "C": "model_67_17"
+      }
+    ]
+  },
+  "grimace": {
+    "blocks": [
+      {
+        "actor": "w5",
+        "A": "MagicFace",
+        "B": "model_67_17",
+        "C": "GANmut"
+      },
+      {
+        "actor": "w4",
+        "A": "model_67_17",
+        "B": "GANmut",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "w1",
+        "A": "GANmut",
+        "B": "MagicFace",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "w3",
+        "A": "GANmut",
+        "B": "MagicFace",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "m3",
+        "A": "model_67_17",
+        "B": "GANmut",
+        "C": "MagicFace"
+      },
       {
         "actor": "m4",
         "A": "MagicFace",
         "B": "model_67_17",
+        "C": "GANmut"
+      },
+      {
+        "actor": "m2",
+        "A": "MagicFace",
+        "B": "model_67_17",
+        "C": "GANmut"
+      }
+    ]
+  },
+  "smile3": {
+    "blocks": [
+      {
+        "actor": "w3",
+        "A": "MagicFace",
+        "B": "GANmut",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "m2",
+        "A": "GANmut",
+        "B": "model_67_17",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "w4",
+        "A": "model_67_17",
+        "B": "MagicFace",
+        "C": "GANmut"
+      },
+      {
+        "actor": "w1",
+        "A": "MagicFace",
+        "B": "GANmut",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "m4",
+        "A": "model_67_17",
+        "B": "MagicFace",
         "C": "GANmut"
       },
       {
@@ -414,10 +580,72 @@ const MAPPING       = {
         "C": "MagicFace"
       },
       {
-        "actor": "m2",
+        "actor": "w5",
+        "A": "model_67_17",
+        "B": "GANmut",
+        "C": "MagicFace"
+      }
+    ]
+  },
+  "smile4": {
+    "blocks": [
+      {
+        "actor": "w1",
+        "A": "model_67_17",
+        "B": "MagicFace",
+        "C": "GANmut"
+      },
+      {
+        "actor": "w4",
+        "A": "MagicFace",
+        "B": "GANmut",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "w5",
         "A": "GANmut",
         "B": "model_67_17",
         "C": "MagicFace"
+      },
+      {
+        "actor": "w3",
+        "A": "MagicFace",
+        "B": "model_67_17",
+        "C": "GANmut"
+      },
+      {
+        "actor": "m4",
+        "A": "model_67_17",
+        "B": "GANmut",
+        "C": "MagicFace"
+      },
+      {
+        "actor": "m2",
+        "A": "GANmut",
+        "B": "MagicFace",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "m3",
+        "A": "model_67_17",
+        "B": "GANmut",
+        "C": "MagicFace"
+      }
+    ]
+  },
+  "surprised2": {
+    "blocks": [
+      {
+        "actor": "m2",
+        "A": "GANmut",
+        "B": "MagicFace",
+        "C": "model_67_17"
+      },
+      {
+        "actor": "w3",
+        "A": "MagicFace",
+        "B": "model_67_17",
+        "C": "GANmut"
       },
       {
         "actor": "w1",
@@ -426,53 +654,54 @@ const MAPPING       = {
         "C": "MagicFace"
       },
       {
-        "actor": "w3",
-        "A": "degraded",
+        "actor": "w5",
+        "A": "GANmut",
         "B": "MagicFace",
-        "C": "GANmut"
+        "C": "model_67_17"
       },
       {
         "actor": "w4",
-        "A": "GANmut",
-        "B": "model_67_17",
+        "A": "model_67_17",
+        "B": "GANmut",
         "C": "MagicFace"
       },
       {
-        "actor": "w5",
-        "A": "model_67_17",
-        "B": "MagicFace",
+        "actor": "m3",
+        "A": "MagicFace",
+        "B": "model_67_17",
         "C": "GANmut"
+      },
+      {
+        "actor": "m4",
+        "A": "model_67_17",
+        "B": "GANmut",
+        "C": "MagicFace"
       }
     ]
   }
 };
-const BASE_URL      = "https://cdn.jsdelivr.net/gh/varun-jois/mturk-study@main";
-const APPS_SCRIPT   = "https://script.google.com/macros/s/AKfycbwh8kWhRh_cppL2KwIoRcRzyrWP4kXSRhTXeg2jCfIgb_JlkXJ88h43DE44d-Eyt2ivjA/exec";
-const COMPLETION_URL = "https://app.prolific.com/submissions/complete?cc=CUC330RG";
-const EXPRESSIONS   = ["angry", "disgust", "sad3", "smile", "wink"];
+const BASE_URL    = "https://raw.githubusercontent.com/varun-jois/mturk-study/main";
+const EXPRESSIONS = ["angry", "disgust", "sad3", "smile", "wink", "confused", "grimace", "smile3", "smile4", "surprised2"];
 
 function getUrlParam(name) {
   const params = new URLSearchParams(window.location.search);
   return params.get(name) || "";
 }
 
-function pickExpression() {
-  const forced = getUrlParam("expression");
-  if (forced && EXPRESSIONS.includes(forced)) return forced;
-  const seed = getUrlParam("PROLIFIC_PID") || Math.random().toString();
-  let hash = 0;
-  for (let c of seed) hash = (hash * 31 + c.charCodeAt(0)) & 0xffffffff;
-  return EXPRESSIONS[Math.abs(hash) % EXPRESSIONS.length];
+function isPreview() {
+  return getUrlParam("assignmentId") === "ASSIGNMENT_ID_NOT_AVAILABLE";
 }
 
 function buildBlock(expression, blockIdx, block) {
-  const i       = blockIdx + 1;
-  const actor   = block.actor;
-  const isAttn  = (i === MAPPING[expression].attn_pos);
+  const i = blockIdx + 1;
+  const actor = block.actor;
   return `
     <div class="block" id="block-${i}">
       <div class="progress">Block ${i} of 7</div>
       <div class="block-header">
+        <div class="block-instructions">
+          Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.
+        </div>
         <div class="ref-images">
           <div class="ref-box">
             <img src="${BASE_URL}/assets/targets/${actor}.jpg" alt="Source face">
@@ -482,9 +711,6 @@ function buildBlock(expression, blockIdx, block) {
             <img src="${BASE_URL}/assets/expressions/${expression}.jpg" alt="Target expression">
             <span class="caption">Target expression</span>
           </div>
-        </div>
-        <div>
-          <div class="block-instructions">Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.</div>
         </div>
       </div>
       <table class="strips-table">
@@ -523,7 +749,7 @@ function buildBlock(expression, blockIdx, block) {
           <div class="error-msg" id="err-expr-${i}">Please select an option.</div>
         </div>
         <div class="question-group">
-          <label>3. Which sequence best maintains the person's natural appearance throughout?</label>
+          <label>3. Which sequence best maintains the person's natural appearance? Ignore differences in head angle/pose.</label>
           <div class="radio-row">
             <label><input type="radio" name="identity_${i}" value="A"> A</label>
             <label><input type="radio" name="identity_${i}" value="B"> B</label>
@@ -536,15 +762,25 @@ function buildBlock(expression, blockIdx, block) {
 }
 
 function buildStudy() {
-  const expression = pickExpression();
+  const expression = getUrlParam("expression");
+  if (!expression || !MAPPING[expression]) {
+    document.getElementById("study-container").innerHTML =
+      '<p style="color:red;">No valid expression specified in URL.</p>';
+    return;
+  }
   window._expression = expression;
-  const hit        = MAPPING[expression];
-  const container  = document.getElementById("study-container");
+  const hit       = MAPPING[expression];
+  const container = document.getElementById("study-container");
   let html = "";
   for (let i = 0; i < 7; i++) {
     html += buildBlock(expression, i, hit.blocks[i]);
   }
   container.innerHTML = html;
+
+  if (isPreview()) {
+    document.getElementById("preview-banner").style.display = "block";
+    document.getElementById("submit-btn").disabled = true;
+  }
 }
 
 function validateAndSubmit() {
@@ -560,9 +796,9 @@ function validateAndSubmit() {
     if (errP)  errP.style.display  = pEl  ? 'none' : 'block';
     if (errE)  errE.style.display  = eEl  ? 'none' : 'block';
     if (errId) errId.style.display = idEl ? 'none' : 'block';
-    if (errP  && !pEl)  valid = false;
-    if (errE  && !eEl)  valid = false;
-    if (errId && !idEl) valid = false;
+    if (!pEl)  valid = false;
+    if (!eEl)  valid = false;
+    if (!idEl) valid = false;
   }
 
   const catchEl = document.querySelector('input[name="catch"]:checked');
@@ -573,10 +809,16 @@ function validateAndSubmit() {
 
   const expression = window._expression;
   const hit        = MAPPING[expression];
-  const data       = {
-    prolific_pid: getUrlParam("PROLIFIC_PID"),
-    study_id:     getUrlParam("STUDY_ID"),
-    session_id:   getUrlParam("SESSION_ID"),
+
+  const assignmentId = getUrlParam("assignmentId");
+  const turkSubmitTo = getUrlParam("turkSubmitTo");
+
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = turkSubmitTo + "/mturk/externalSubmit";
+
+  const fields = {
+    assignmentId: assignmentId,
     expression:   expression,
     catch:        catchEl.value,
     feedback:     document.getElementById("feedback").value,
@@ -584,31 +826,28 @@ function validateAndSubmit() {
 
   for (let i = 1; i <= 7; i++) {
     const actor = hit.blocks[i - 1].actor;
-    const A     = hit.blocks[i - 1].A;
-    const B     = hit.blocks[i - 1].B;
-    const C     = hit.blocks[i - 1].C;
     const pEl   = document.querySelector('input[name="prog_' + i + '"]:checked');
     const eEl   = document.querySelector('input[name="expr_' + i + '"]:checked');
     const idEl  = document.querySelector('input[name="identity_' + i + '"]:checked');
-    data["actor_" + i]    = actor;
-    data["A_" + i]        = A;
-    data["B_" + i]        = B;
-    data["C_" + i]        = C;
-    data["prog_" + i]     = pEl  ? pEl.value  : "";
-    data["expr_" + i]     = eEl  ? eEl.value  : "";
-    data["identity_" + i] = idEl ? idEl.value : "";
+    fields["actor_" + i]    = actor;
+    fields["A_" + i]        = hit.blocks[i - 1].A;
+    fields["B_" + i]        = hit.blocks[i - 1].B;
+    fields["C_" + i]        = hit.blocks[i - 1].C;
+    fields["prog_" + i]     = pEl  ? pEl.value  : "";
+    fields["expr_" + i]     = eEl  ? eEl.value  : "";
+    fields["identity_" + i] = idEl ? idEl.value : "";
   }
 
-  const btn = document.getElementById("submit-btn");
-  btn.disabled = true;
-  document.getElementById("status-msg").textContent = "Submitting, please wait...";
+  for (const [key, val] of Object.entries(fields)) {
+    const input = document.createElement("input");
+    input.type  = "hidden";
+    input.name  = key;
+    input.value = val;
+    form.appendChild(input);
+  }
 
-  fetch(APPS_SCRIPT, {
-    method: "POST",
-    body: JSON.stringify(data),
-  })
-  .then(() => { window.location.href = COMPLETION_URL; })
-  .catch(() => { window.location.href = COMPLETION_URL; });
+  document.body.appendChild(form);
+  form.submit();
 }
 
 buildStudy();
