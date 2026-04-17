@@ -218,7 +218,7 @@
 <div id="status-msg"></div>
 
 <script>
-const MAPPING     = {
+var MAPPING  = {
   "angry": {
     "blocks": [
       {
@@ -680,11 +680,11 @@ const MAPPING     = {
     ]
   }
 };
-const BASE_URL    = "https://raw.githubusercontent.com/varun-jois/mturk-study/main";
-const EXPRESSIONS = ["angry", "disgust", "sad3", "smile", "wink", "confused", "grimace", "smile3", "smile4", "surprised2"];
+var BASE_URL = "https://raw.githubusercontent.com/varun-jois/mturk-study/main";
+var N_BLOCKS = 7;
 
 function getUrlParam(name) {
-  const params = new URLSearchParams(window.location.search);
+  var params = new URLSearchParams(window.location.search);
   return params.get(name) || "";
 }
 
@@ -693,86 +693,76 @@ function isPreview() {
 }
 
 function buildBlock(expression, blockIdx, block) {
-  const i = blockIdx + 1;
-  const actor = block.actor;
-  return `
-    <div class="block" id="block-${i}">
-      <div class="progress">Block ${i} of 7</div>
-      <div class="block-header">
-        <div class="block-instructions">
-          Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.
-        </div>
-        <div class="ref-images">
-          <div class="ref-box">
-            <img src="${BASE_URL}/assets/targets/${actor}.jpg" alt="Source face">
-            <span class="caption">This is the person whose facial expression should be changed</span>
-          </div>
-          <div class="ref-box">
-            <img src="${BASE_URL}/assets/expressions/${expression}.jpg" alt="Target expression">
-            <span class="caption">Target expression</span>
-          </div>
-        </div>
-      </div>
-      <table class="strips-table">
-        <tr>
-          <td class="label">A</td>
-          <td><img src="${BASE_URL}/strips/${block.A}/${actor}_${expression}_strip.jpg" alt="Sequence A"></td>
-        </tr>
-        <tr>
-          <td class="label">B</td>
-          <td><img src="${BASE_URL}/strips/${block.B}/${actor}_${expression}_strip.jpg" alt="Sequence B"></td>
-        </tr>
-        <tr>
-          <td class="label">C</td>
-          <td><img src="${BASE_URL}/strips/${block.C}/${actor}_${expression}_strip.jpg" alt="Sequence C"></td>
-        </tr>
-      </table>
-      <div class="intensity-label">All sequences go from no expression (left) to full expression (right)</div>
-      <p style="font-size:13px;color:#555;margin:10px 0 12px;"><em>Note: each question is independent — the same sequence may be the best answer for multiple questions.</em></p>
-      <div class="questions">
-        <div class="question-group">
-          <label>1. Which sequence most naturally builds up from neutral to the target expression?</label>
-          <div class="radio-row">
-            <label><input type="radio" name="prog_${i}" value="A"> A</label>
-            <label><input type="radio" name="prog_${i}" value="B"> B</label>
-            <label><input type="radio" name="prog_${i}" value="C"> C</label>
-          </div>
-          <div class="error-msg" id="err-prog-${i}">Please select an option.</div>
-        </div>
-        <div class="question-group">
-          <label>2. Which sequence best captures the target expression?</label>
-          <div class="radio-row">
-            <label><input type="radio" name="expr_${i}" value="A"> A</label>
-            <label><input type="radio" name="expr_${i}" value="B"> B</label>
-            <label><input type="radio" name="expr_${i}" value="C"> C</label>
-          </div>
-          <div class="error-msg" id="err-expr-${i}">Please select an option.</div>
-        </div>
-        <div class="question-group">
-          <label>3. Which sequence best maintains the person's natural appearance? Ignore differences in head angle/pose.</label>
-          <div class="radio-row">
-            <label><input type="radio" name="identity_${i}" value="A"> A</label>
-            <label><input type="radio" name="identity_${i}" value="B"> B</label>
-            <label><input type="radio" name="identity_${i}" value="C"> C</label>
-          </div>
-          <div class="error-msg" id="err-identity-${i}">Please select an option.</div>
-        </div>
-      </div>
-    </div>`;
+  var i     = blockIdx + 1;
+  var actor = block.actor;
+  var html  = '';
+  html += '<div class="block" id="block-' + i + '">';
+  html += '<div class="progress">Block ' + i + ' of ' + N_BLOCKS + '</div>';
+  html += '<div class="block-header">';
+  html += '<div class="block-instructions">Compare the three sequences below. Each strip shows the expression at intensities 0%, 25%, 50%, 75%, and 100%.</div>';
+  html += '<div class="ref-images">';
+  html += '<div class="ref-box">';
+  html += '<img src="' + BASE_URL + '/assets/targets/' + actor + '.jpg" alt="Source face">';
+  html += '<span class="caption">This is the person whose facial expression should be changed</span>';
+  html += '</div>';
+  html += '<div class="ref-box">';
+  html += '<img src="' + BASE_URL + '/assets/expressions/' + expression + '.jpg" alt="Target expression">';
+  html += '<span class="caption">Target expression</span>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+  html += '<table class="strips-table">';
+  html += '<tr><td class="label">A</td><td><img src="' + BASE_URL + '/strips/' + block.A + '/' + actor + '_' + expression + '_strip.jpg" alt="Sequence A"></td></tr>';
+  html += '<tr><td class="label">B</td><td><img src="' + BASE_URL + '/strips/' + block.B + '/' + actor + '_' + expression + '_strip.jpg" alt="Sequence B"></td></tr>';
+  html += '<tr><td class="label">C</td><td><img src="' + BASE_URL + '/strips/' + block.C + '/' + actor + '_' + expression + '_strip.jpg" alt="Sequence C"></td></tr>';
+  html += '</table>';
+  html += '<div class="intensity-label">All sequences go from no expression (left) to full expression (right)</div>';
+  html += '<p style="font-size:13px;color:#555;margin:10px 0 12px;"><em>Note: each question is independent — the same sequence may be the best answer for multiple questions.</em></p>';
+  html += '<div class="questions">';
+  html += '<div class="question-group">';
+  html += '<label>1. Which sequence most naturally builds up from neutral to the target expression?</label>';
+  html += '<div class="radio-row">';
+  html += '<label><input type="radio" name="prog_' + i + '" value="A"> A</label>';
+  html += '<label><input type="radio" name="prog_' + i + '" value="B"> B</label>';
+  html += '<label><input type="radio" name="prog_' + i + '" value="C"> C</label>';
+  html += '</div>';
+  html += '<div class="error-msg" id="err-prog-' + i + '">Please select an option.</div>';
+  html += '</div>';
+  html += '<div class="question-group">';
+  html += '<label>2. Which sequence best captures the target expression?</label>';
+  html += '<div class="radio-row">';
+  html += '<label><input type="radio" name="expr_' + i + '" value="A"> A</label>';
+  html += '<label><input type="radio" name="expr_' + i + '" value="B"> B</label>';
+  html += '<label><input type="radio" name="expr_' + i + '" value="C"> C</label>';
+  html += '</div>';
+  html += '<div class="error-msg" id="err-expr-' + i + '">Please select an option.</div>';
+  html += '</div>';
+  html += '<div class="question-group">';
+  html += '<label>3. Which sequence best maintains the person's natural appearance? Ignore differences in head angle/pose.</label>';
+  html += '<div class="radio-row">';
+  html += '<label><input type="radio" name="identity_' + i + '" value="A"> A</label>';
+  html += '<label><input type="radio" name="identity_' + i + '" value="B"> B</label>';
+  html += '<label><input type="radio" name="identity_' + i + '" value="C"> C</label>';
+  html += '</div>';
+  html += '<div class="error-msg" id="err-identity-' + i + '">Please select an option.</div>';
+  html += '</div>';
+  html += '</div>';
+  html += '</div>';
+  return html;
 }
 
 function buildStudy() {
-  const expression = getUrlParam("expression");
+  var expression = "${expression}";
   if (!expression || !MAPPING[expression]) {
     document.getElementById("study-container").innerHTML =
-      '<p style="color:red;">No valid expression specified in URL.</p>';
+      '<p style="color:red;">No valid expression specified.</p>';
     return;
   }
   window._expression = expression;
-  const hit       = MAPPING[expression];
-  const container = document.getElementById("study-container");
-  let html = "";
-  for (let i = 0; i < 7; i++) {
+  var hit       = MAPPING[expression];
+  var container = document.getElementById("study-container");
+  var html      = "";
+  for (var i = 0; i < N_BLOCKS; i++) {
     html += buildBlock(expression, i, hit.blocks[i]);
   }
   container.innerHTML = html;
@@ -784,15 +774,15 @@ function buildStudy() {
 }
 
 function validateAndSubmit() {
-  let valid = true;
+  var valid = true;
 
-  for (let i = 1; i <= 7; i++) {
-    const pEl  = document.querySelector('input[name="prog_' + i + '"]:checked');
-    const eEl  = document.querySelector('input[name="expr_' + i + '"]:checked');
-    const idEl = document.querySelector('input[name="identity_' + i + '"]:checked');
-    const errP  = document.getElementById('err-prog-' + i);
-    const errE  = document.getElementById('err-expr-' + i);
-    const errId = document.getElementById('err-identity-' + i);
+  for (var i = 1; i <= N_BLOCKS; i++) {
+    var pEl  = document.querySelector('input[name="prog_' + i + '"]:checked');
+    var eEl  = document.querySelector('input[name="expr_' + i + '"]:checked');
+    var idEl = document.querySelector('input[name="identity_' + i + '"]:checked');
+    var errP  = document.getElementById('err-prog-' + i);
+    var errE  = document.getElementById('err-expr-' + i);
+    var errId = document.getElementById('err-identity-' + i);
     if (errP)  errP.style.display  = pEl  ? 'none' : 'block';
     if (errE)  errE.style.display  = eEl  ? 'none' : 'block';
     if (errId) errId.style.display = idEl ? 'none' : 'block';
@@ -801,48 +791,46 @@ function validateAndSubmit() {
     if (!idEl) valid = false;
   }
 
-  const catchEl = document.querySelector('input[name="catch"]:checked');
+  var catchEl = document.querySelector('input[name="catch"]:checked');
   document.getElementById('err-catch').style.display = catchEl ? 'none' : 'block';
   if (!catchEl) valid = false;
 
   if (!valid) return;
 
-  const expression = window._expression;
-  const hit        = MAPPING[expression];
+  var expression   = window._expression;
+  var hit          = MAPPING[expression];
+  var assignmentId = getUrlParam("assignmentId");
+  var turkSubmitTo = getUrlParam("turkSubmitTo");
 
-  const assignmentId = getUrlParam("assignmentId");
-  const turkSubmitTo = getUrlParam("turkSubmitTo");
-
-  const form = document.createElement("form");
+  var form = document.createElement("form");
   form.method = "POST";
   form.action = turkSubmitTo + "/mturk/externalSubmit";
 
-  const fields = {
-    assignmentId: assignmentId,
-    expression:   expression,
-    catch:        catchEl.value,
-    feedback:     document.getElementById("feedback").value,
-  };
+  var fields = {};
+  fields["assignmentId"] = assignmentId;
+  fields["expression"]   = expression;
+  fields["catch"]        = catchEl.value;
+  fields["feedback"]     = document.getElementById("feedback").value;
 
-  for (let i = 1; i <= 7; i++) {
-    const actor = hit.blocks[i - 1].actor;
-    const pEl   = document.querySelector('input[name="prog_' + i + '"]:checked');
-    const eEl   = document.querySelector('input[name="expr_' + i + '"]:checked');
-    const idEl  = document.querySelector('input[name="identity_' + i + '"]:checked');
-    fields["actor_" + i]    = actor;
-    fields["A_" + i]        = hit.blocks[i - 1].A;
-    fields["B_" + i]        = hit.blocks[i - 1].B;
-    fields["C_" + i]        = hit.blocks[i - 1].C;
+  for (var i = 1; i <= N_BLOCKS; i++) {
+    var block = hit.blocks[i - 1];
+    var pEl   = document.querySelector('input[name="prog_' + i + '"]:checked');
+    var eEl   = document.querySelector('input[name="expr_' + i + '"]:checked');
+    var idEl  = document.querySelector('input[name="identity_' + i + '"]:checked');
+    fields["actor_" + i]    = block.actor;
+    fields["A_" + i]        = block.A;
+    fields["B_" + i]        = block.B;
+    fields["C_" + i]        = block.C;
     fields["prog_" + i]     = pEl  ? pEl.value  : "";
     fields["expr_" + i]     = eEl  ? eEl.value  : "";
     fields["identity_" + i] = idEl ? idEl.value : "";
   }
 
-  for (const [key, val] of Object.entries(fields)) {
-    const input = document.createElement("input");
+  for (var key in fields) {
+    var input = document.createElement("input");
     input.type  = "hidden";
     input.name  = key;
-    input.value = val;
+    input.value = fields[key];
     form.appendChild(input);
   }
 
