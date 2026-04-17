@@ -167,6 +167,7 @@
 </style>
 </head>
 <body>
+<form id="main-form">
 
 <div id="preview-banner" class="preview-banner" style="display:none;">
   <strong>Preview mode.</strong> Accept the HIT to complete the study and submit your responses.
@@ -752,7 +753,7 @@ function buildBlock(expression, blockIdx, block) {
 }
 
 function buildStudy() {
-  var expression = "${expression}";
+  var expression = getUrlParam("expression") || "{{task.row_data['expression']}}";
   if (!expression || !MAPPING[expression]) {
     document.getElementById("study-container").innerHTML =
       '<p style="color:red;">No valid expression specified.</p>';
@@ -840,5 +841,6 @@ function validateAndSubmit() {
 
 buildStudy();
 </script>
+</form>
 </body>
 </html>
